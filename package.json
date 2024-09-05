@@ -1,0 +1,29 @@
+{
+  "name": "ui_cypress_test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress run",
+    "test:open": "cypress open",
+    "test:record": "cypress run --record",
+    "test:reporter": "cypress run --reporter mochawesome",
+    "test:spec": "cypress run --spec",
+    "test:tag": "cypress run --tag",
+    "test:config": "cypress run --config",
+    "test:env": "cypress run --env",
+    "test:global": "cypress run --global",
+    "allure:generate": "allure generate --clean",
+    "allure:open": "allure open"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "cypress": "^13.14.1",
+    "cypress-mochawesome-reporter": "^3.8.2"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "faker": "^6.6.6"
+  }
+}
