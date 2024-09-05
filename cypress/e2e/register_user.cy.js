@@ -8,19 +8,21 @@ describe('Test case 1', () => {
   });
 
   it('Verify Registration', () => {
-    //Verify that home page is visible successfully
     cy.get('body').should('be.visible');
     cy.url().should('eq', 'https://automationexercise.com/');
+    cy.log('Verify that home page is visible successfully')
+
     cy.title().should('include', 'Automation Exercise');
-    //Verify 'New User Signup!' is visible
     LoginPage.loginLink.click();
     LoginPage.signupForm.should('be.visible');
     cy.contains('h2', 'New User Signup!').should('be.visible');
-    //Verify that "ENTER ACCOUNT INFORMATION" is visible
+    cy.log('Verify "New User Signup!" is visible')
+
     LoginPage.signup();
     cy.url().should('eq', 'https://automationexercise.com/signup');
     cy.contains('h2', 'Enter Account Information').should('be.visible');
-    //Verify that 'ACCOUNT CREATED!' is visible
+    cy.log('Verify that "ENTER ACCOUNT INFORMATION" is visible');
+    
     CreateAccountPage.gender.click();
     CreateAccountPage.typePassword();
     CreateAccountPage.selectDays();
@@ -40,12 +42,15 @@ describe('Test case 1', () => {
     CreateAccountPage.typeMobileNum();
     CreateAccountPage.createAccountBtn.click();
     cy.contains('h2', 'Account Created!').should('be.visible');
-    //Verify that 'Logged in as username' is visible
+    cy.log('Verify that "ACCOUNT CREATED!" is visible');
+
     CreateAccountPage.continueBtn.click();
-    cy.contains('a', ' Logged in as').should('be.visible');
-    //Verify that 'ACCOUNT DELETED!' is visible
+    cy.contains('a', 'Logged in as ').should('be.visible');
+    cy.log('Verify that "Logged in as username" is visible')
+    
     CreateAccountPage.deleteBtn.click();
     cy.contains('h2', 'Account Deleted!').should('be.visible');
+    cy.log('erify that "ACCOUNT DELETED!" is visible')
     CreateAccountPage.continueBtn.click();
   });
 });
