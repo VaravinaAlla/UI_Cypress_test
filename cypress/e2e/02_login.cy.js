@@ -1,7 +1,7 @@
 import LoginPage from '/cypress/pages/LoginPage';
 import CreateAccountPage from '/cypress/pages/CreateAccountPage';
 
-describe('Test case 2 - Verify Login with correct and incorrect data', () => {
+describe('Verifying Login with correct and incorrect data', () => {
   beforeEach(() => {
     LoginPage.open();
   });
@@ -19,10 +19,9 @@ describe('Test case 2 - Verify Login with correct and incorrect data', () => {
     LoginPage.fillLoginFormAndClick();
     cy.contains('Logged in as').should('be.visible');
 
-    CreateAccountPage.deleteBtn.click();
-    cy.contains('h2', 'Account Deleted!').should('be.visible');
-    cy.log('Verify that "ACCOUNT DELETED!" is visible');
-    CreateAccountPage.continueBtn.click();
+    LoginPage.logoutLink.click();
+    cy.url().should('eq', 'https://automationexercise.com/login');
+    cy.log('Verify that user is navigated to login page');
   });
 
   it('Login with incorrect email and password', () => {
@@ -65,7 +64,32 @@ describe('Test case 2 - Verify Login with correct and incorrect data', () => {
     LoginPage.loginBtn.click();
     LoginPage.loginEmail.then(($input) => {
       expect($input[0].checkValidity()).to.be.false;
-      expect($input[0].validationMessage).to.include("Please include an '@' in the email address.");
+      expect($input[0].validationMessage).to.include(
+        "Please include an '@' in the email address."
+      );
     });
+  });
+
+  it('Registration with existing email', () => {
+    LoginPage.openSignUpAndLoginForm();
+    LoginPage.loginForm.should('be.visible');
+    LoginPage.fillSignupFormExistUserAndClick();
+    cy.get('p').should('contain.text', 'Email Address already exist!');
+    cy.log('Verify error "Email Address already exist!" is visible');
+  });
+
+  it('Delete account', () => {
+    LoginPage.openSignUpAndLoginForm();
+    LoginPage.loginForm.should('be.visible');
+    cy.contains('h2', 'Login to your account').should('be.visible');
+    cy.log('Verify "Login to your account" is visible');
+
+    LoginPage.fillLoginFormAndClick();
+    cy.contains('Logged in as').should('be.visible');
+
+    CreateAccountPage.deleteBtn.click();
+    cy.contains('h2', 'Account Deleted!').should('be.visible');
+    cy.log('Verify that "ACCOUNT DELETED!" is visible');
+    CreateAccountPage.continueBtn.click();
   });
 });

@@ -13,10 +13,18 @@ export function generateRandomUser() {
     city: faker.address.city(),
     state: faker.address.state(),
     zipcode: faker.address.zipCode(),
-    mobileNum: faker.phone.number('+1 ### ### ####'),
+    mobileNum: faker.phone.number('+1 ### ### ####')
   };
  
   cy.writeFile('cypress/fixtures/userData.json', user);
-
   return user;
+}
+
+ export function generateRandomData(){
+   return {
+    contactName: faker.name.firstName(),
+    contactEmail: faker.internet.email(),
+    contactSubject: faker.lorem.sentence(),
+    contactMsg: faker.lorem.paragraph()
+   };
 }

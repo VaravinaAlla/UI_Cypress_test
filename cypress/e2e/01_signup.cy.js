@@ -2,7 +2,7 @@
 import LoginPage from '/cypress/pages/LoginPage';
 import CreateAccountPage from '/cypress/pages/CreateAccountPage';
 
-describe('Test case 1 - Verify Registration', () => {
+describe('Verifying Registration', () => {
   beforeEach(() => {
     LoginPage.open();
   });
