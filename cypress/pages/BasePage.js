@@ -8,4 +8,5 @@ export default class BasePage {
   open(url) {
     cy.visit(`${this.baseURL}${url}`);
   }
+
 }

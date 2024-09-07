@@ -1,5 +1,4 @@
 /// <reference types="cypress" />
-import DataGenerator from '../support/testData/dataGenerator';
 import BasePage from './BasePage';
 
 class CreateAccountPage extends BasePage {
@@ -41,11 +40,11 @@ class CreateAccountPage extends BasePage {
     return cy.get('[data-qa="company"]');
   }
 
-  get adress() {
+  get address() {
     return cy.get('[data-qa="address"]');
   }
 
-  get adress2() {
+  get address2() {
     return cy.get('[data-qa="address2"]');
   }
 
@@ -108,10 +107,6 @@ class CreateAccountPage extends BasePage {
     });
   }
 
-  typePassword() {
-    this.password.type(DataGenerator.getRandomPassword());
-  }
-
   checkCheckboxSignup() {
     this.checkboxSignup.check();
   }
@@ -119,25 +114,6 @@ class CreateAccountPage extends BasePage {
     this.checkboxOffers.check();
   }
 
-  typeFistName() {
-    this.firstName.type(DataGenerator.getRandomFirstName());
-  }
-
-  typeLastName() {
-    this.lastName.type(DataGenerator.getRandomLastName());
-  }
-
-  typeCompany() {
-    this.company.type(DataGenerator.getRandomCompanyName());
-  }
-
-  typeAddress() {
-    this.adress.type(DataGenerator.getRandomAddress());
-  }
-
-  typeAdress2() {
-    this.adress2.type(DataGenerator.getRandomAddress2());
-  }
   selectCountry() {
     this.countries.then(($select) => {
       const options = $select.find('option');
@@ -147,20 +123,27 @@ class CreateAccountPage extends BasePage {
     });
   }
 
-  typeCity() {
-    this.city.type(DataGenerator.getRandomCity());
-  }
-
-  typeState() {
-    this.state.type(DataGenerator.getRandomState());
-  }
-
-  typeZipcode() {
-    this.zipcode.type(DataGenerator.getRandomZipcode());
-  }
-
-  typeMobileNum() {
-    this.mobileNum.type(DataGenerator.getRandomMobileNumber());
+  fillAccountInfoAndClickBtn() {
+    cy.fixture('userData.json').then((user) => {
+      this.gender.click();
+      this.password.type(user.password);
+      this.selectDays();
+      this.selectMonths();
+      this.selectYears();
+      this.checkboxSignup.check();
+      this.checkboxOffers.check();
+      this.firstName.type(user.firstName);
+      this.lastName.type(user.lastName);
+      this.company.type(user.company);
+      this.address.type(user.address);
+      this.address2.type(user.address2);
+      this.selectCountry();
+      this.state.type(user.state);
+      this.city.type(user.city);
+      this.zipcode.type(user.zipcode);
+      this.mobileNum.type(user.mobileNum);
+      this.createAccountBtn.click();
+    });
   }
 }
 
