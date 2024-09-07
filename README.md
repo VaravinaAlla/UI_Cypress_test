@@ -1,4 +1,6 @@
+
 | № | Test case                                         |
+|---|---------------------------------------------------|
 | 1 | Registration account with randon values           |
 | 2 | Login with correct email and password and Logout  |
 |2.1| Login with incorrect email and password           |
