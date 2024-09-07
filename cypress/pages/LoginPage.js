@@ -7,6 +7,10 @@ class LoginPage extends BasePage {
     return cy.get('a[href="/login"]');
   }
 
+  get logoutLink() {
+    return cy.get('a[href="/logout"]');
+  }
+
   get signupForm() {
     return cy.get('.signup-form');
   }
@@ -52,6 +56,14 @@ class LoginPage extends BasePage {
     this.signupName.type(user.name);
     this.signupEmail.type(user.email);
     this.signupBtn.click();
+  }
+
+  fillSignupFormExistUserAndClick() {
+    cy.fixture('userData.json').then((user) => {
+      this.signupName.type(user.name);
+      this.signupEmail.type(user.email);
+      this.signupBtn.click();
+    });
   }
 
   fillLoginFormAndClick() {
