@@ -1,5 +1,8 @@
+import BasePage from '../pages/BasePage';
 import LoginPage from '/cypress/pages/LoginPage';
 import CreateAccountPage from '/cypress/pages/CreateAccountPage';
+
+const basePage = new BasePage();
 
 describe('Verifying Login with correct and incorrect data', () => {
   beforeEach(() => {
@@ -20,7 +23,7 @@ describe('Verifying Login with correct and incorrect data', () => {
     cy.contains('Logged in as').should('be.visible');
 
     LoginPage.logoutLink.click();
-    cy.url().should('eq', 'https://automationexercise.com/login');
+    cy.url().should('eq', basePage.loginUrl);
     cy.log('Verify that user is navigated to login page');
   });
 
