@@ -28,3 +28,8 @@ export function generateRandomUser() {
     contactMsg: faker.lorem.paragraph()
    };
 }
+
+ export function getRandomSearchTerm(terms) {
+    const randomIndex = Math.floor(Math.random() * terms.length);
+    return terms[randomIndex];
+  }
