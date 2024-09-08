@@ -1,6 +1,9 @@
 /// <reference types="cypress" />
+import BasePage from '../pages/BasePage';
 import LoginPage from '/cypress/pages/LoginPage';
 import CreateAccountPage from '/cypress/pages/CreateAccountPage';
+
+const basePage = new BasePage();
 
 describe('Verifying Registration', () => {
   beforeEach(() => {
@@ -19,7 +22,7 @@ describe('Verifying Registration', () => {
     cy.log('Verify "New User Signup!" is visible');
 
     LoginPage.fillSignupFormAndClick();
-    cy.url().should('eq', 'https://automationexercise.com/signup');
+    cy.url().should('eq', basePage.signUpUrl);
     cy.contains('h2', 'Enter Account Information').should('be.visible');
     cy.log('Verify that "ENTER ACCOUNT INFORMATION" is visible');
 

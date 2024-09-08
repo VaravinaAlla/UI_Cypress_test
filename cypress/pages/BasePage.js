@@ -9,4 +9,19 @@ export default class BasePage {
     cy.visit(`${this.baseURL}${url}`);
   }
 
+  get loginUrl() {
+    return `${this.baseURL}/login`;
+  }
+
+  get signUpUrl() {
+    return `${this.baseURL}/signup`;
+  }
+
+  get contactUsUrl() {
+    return `${this.baseURL}/contact_us`;
+  }
+
+  get productsUrl() {
+    return `${this.baseURL}/products`;
+  }
 }
