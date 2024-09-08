@@ -1,10 +1,7 @@
 name: End-to-end tests
 on:
   workflow_dispatch:
-  
-  pull_request:
-    branches:
-      - main
+
 jobs:
   cypress-run:
     runs-on: ubuntu-22.04
