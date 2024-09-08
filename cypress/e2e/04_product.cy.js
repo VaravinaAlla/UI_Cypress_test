@@ -1,10 +1,11 @@
 import BasePage from '../pages/BasePage';
 import ProductsPage from '../pages/ProductsPage';
 import LoginPage from '/cypress/pages/LoginPage';
+import { getRandomSearchTerm } from '../support/dataGenerator';
 
 const basePage = new BasePage();
 
-describe('Verifying All Products and product detail page', () => {
+describe('Verifying Products page', () => {
   beforeEach(() => {
     LoginPage.open();
   });
@@ -35,6 +36,29 @@ describe('Verifying All Products and product detail page', () => {
       const trimmedPrice = priceText.trim();
       expect(trimmedPrice).to.match(/Rs\. \d+/);
     });
-    cy.log('Verify that detail detail is visible');
+    cy.log('Verify Searching Product');
+  });
+
+  it.only('Verify All Products and product detail page', () => {
+    ProductsPage.productsLink.click();
+    cy.url().should('eq', basePage.productsUrl);
+    cy.contains('h2', 'All Products').should('be.visible');
+    cy.log('Verify user is navigated to ALL PRODUCTS page successfully');
+
+    cy.fixture('searchTerms').then((data) => {
+      const terms = data.terms;
+      const searchTerm = getRandomSearchTerm(terms);
+      ProductsPage.typeSearchProductAndClickSearchBtn(searchTerm);
+      cy.url().should('include', `?search=${searchTerm}`);
+      cy.log('Verify Searching result url');
+
+      cy.contains('h2', 'Searched Products').should('be.visible');
+      cy.log('Verify "SEARCHED PRODUCTS" is visible')
+      
+      ProductsPage.productSearchedList.each(($el) => {
+        cy.wrap($el).find('p').should('contain.text', searchTerm);
+      });
+      cy.log('Verify all the products related to search are visible');
+    });
   });
 });

@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+ 
 
 import BasePage from './BasePage';
 class ProductsPage extends BasePage {
@@ -20,6 +21,23 @@ class ProductsPage extends BasePage {
 
   get productPrice() {
     return cy.get('span > span');
+  }
+
+  get productSearch() {
+    return cy.get('#search_product');
+  }
+
+  get productSearchedList() {
+    return cy.get('.productinfo');;
+  }
+
+  get productSearchBtn() {
+    return cy.get('#submit_search');
+  }
+
+  typeSearchProductAndClickSearchBtn(searchTerms) {
+    this.productSearch.clear().type(searchTerms);
+    this.productSearchBtn.click();
   }
 
   clickRandomViewProduct() {
