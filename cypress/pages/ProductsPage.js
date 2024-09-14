@@ -16,7 +16,11 @@ class ProductsPage extends BasePage {
   }
 
   get addToCartBtn() {
-    return cy.get('.add-to-cart');
+    return cy.contains('button', 'Add to cart');
+  }
+
+get viewCart() {
+    return  cy.contains('u', 'View Cart');
   }
 
   get productsInfo() {
@@ -42,6 +46,10 @@ class ProductsPage extends BasePage {
     return cy.contains('button', 'Continue Shopping');
   }
 
+  get quantity() {
+    return cy.get('#quantity');
+  }
+
   typeSearchProductAndClickSearchBtn(searchTerms) {
     this.productSearch.clear().type(searchTerms);
     this.productSearchBtn.click();
@@ -55,7 +63,7 @@ class ProductsPage extends BasePage {
     });
   }
 
-  hoverAndClick() {
+  hoverOnItemAndClick() {
     cy.get('.productinfo').then(($links) => {
       const itemCount = $links.length;
       const randomIndex = Math.floor(Math.random() * itemCount);
@@ -74,7 +82,7 @@ class ProductsPage extends BasePage {
                 name: productName,
                 price: productPrice,
               });
-          this.continueBtn.click();
+              this.continueBtn.click();
             });
         });
     });
