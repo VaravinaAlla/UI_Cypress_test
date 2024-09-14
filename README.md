@@ -11,3 +11,5 @@
 | 4 | Deleting account                                  |
 | 5 | 'Contact us' Form                                 |
 | 6 | Verifying All Products and product detail page    |
+| 7 | Searching product                                 |
+| 8 | Add Products in Cart                              |
