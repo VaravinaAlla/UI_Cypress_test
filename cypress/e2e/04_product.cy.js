@@ -63,18 +63,26 @@ describe('Verifying Products page', () => {
     });
   });
 
-  it.only('Verify Adding Products in Cart', () => {
-    cy.get('body').should('be.visible');
-    cy.title().should('include', 'Automation Exercise');
-    cy.log('Verify that home page is visible successfully');
-
+  it('Verify Adding Products in Cart', () => {
     ProductsPage.productsLink.click();
-    ProductsPage.hoverAndClick();
-    ProductsPage.hoverAndClick();
+    ProductsPage.hoverOnItemAndClick();
+    ProductsPage.hoverOnItemAndClick();
     CartPage.cartLink.first().click();
     cy.fixture('product.json').then((product) => {
-      cy.get('a[href^="/product_details/"]').should('contain.text', product.name);
+      cy.get('a[href^="/product_details/"]').should(
+        'contain.text',
+        product.name
+      );
       cy.get('.cart_price').should('contain.text', product.price);
     });
+  });
+  
+  it('Verify Product quantity in Cart', () => {
+    ProductsPage.clickRandomViewProduct();
+    ProductsPage.productsInfo.should('be.visible');
+    ProductsPage.quantity.clear().type(4);
+    ProductsPage.addToCartBtn.click();
+    ProductsPage.viewCart.click();
+    cy.get('button.disabled').should('contain.text', '4')
   });
 });
