@@ -2,6 +2,7 @@ import BasePage from '../pages/BasePage';
 import ProductsPage from '../pages/ProductsPage';
 import LoginPage from '/cypress/pages/LoginPage';
 import { getRandomSearchTerm } from '../support/dataGenerator';
+import CartPage from '../pages/CartPage';
 
 const basePage = new BasePage();
 
@@ -36,10 +37,10 @@ describe('Verifying Products page', () => {
       const trimmedPrice = priceText.trim();
       expect(trimmedPrice).to.match(/Rs\. \d+/);
     });
-    cy.log('Verify Searching Product');
+    cy.log('Verify that Product detail is visible');
   });
 
-  it.only('Verify All Products and product detail page', () => {
+  it('Verify Searching Product', () => {
     ProductsPage.productsLink.click();
     cy.url().should('eq', basePage.productsUrl);
     cy.contains('h2', 'All Products').should('be.visible');
@@ -53,12 +54,27 @@ describe('Verifying Products page', () => {
       cy.log('Verify Searching result url');
 
       cy.contains('h2', 'Searched Products').should('be.visible');
-      cy.log('Verify "SEARCHED PRODUCTS" is visible')
-      
+      cy.log('Verify "SEARCHED PRODUCTS" is visible');
+
       ProductsPage.productSearchedList.each(($el) => {
         cy.wrap($el).find('p').should('contain.text', searchTerm);
       });
       cy.log('Verify all the products related to search are visible');
+    });
+  });
+
+  it.only('Verify Adding Products in Cart', () => {
+    cy.get('body').should('be.visible');
+    cy.title().should('include', 'Automation Exercise');
+    cy.log('Verify that home page is visible successfully');
+
+    ProductsPage.productsLink.click();
+    ProductsPage.hoverAndClick();
+    ProductsPage.hoverAndClick();
+    CartPage.cartLink.first().click();
+    cy.fixture('product.json').then((product) => {
+      cy.get('a[href^="/product_details/"]').should('contain.text', product.name);
+      cy.get('.cart_price').should('contain.text', product.price);
     });
   });
 });

@@ -2,6 +2,7 @@ const { defineConfig } = require('cypress');
 const { faker } = require('@faker-js/faker');
 
 module.exports = defineConfig({
+  projectId: 'bs43eh',
   e2e: {
     chromeWebSecurity: false,
     reporter: 'cypress-mochawesome-reporter',

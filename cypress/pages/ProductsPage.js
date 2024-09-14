@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
- 
 
 import BasePage from './BasePage';
+import CartPage from '../pages/CartPage';
 class ProductsPage extends BasePage {
   get productsLink() {
     return cy.get('a[href="/products"]');
@@ -12,7 +12,11 @@ class ProductsPage extends BasePage {
   }
 
   get productsItem() {
-    return cy.get(' a[href^="/product_details/"]');
+    return cy.get('a[href^="/product_details/"]');
+  }
+
+  get addToCartBtn() {
+    return cy.get('.add-to-cart');
   }
 
   get productsInfo() {
@@ -28,11 +32,14 @@ class ProductsPage extends BasePage {
   }
 
   get productSearchedList() {
-    return cy.get('.productinfo');;
+    return cy.get('.productinfo');
   }
 
   get productSearchBtn() {
     return cy.get('#submit_search');
+  }
+  get continueBtn() {
+    return cy.contains('button', 'Continue Shopping');
   }
 
   typeSearchProductAndClickSearchBtn(searchTerms) {
@@ -47,6 +54,30 @@ class ProductsPage extends BasePage {
       cy.wrap($links[randomIndex]).click();
     });
   }
-}
 
+  hoverAndClick() {
+    cy.get('.productinfo').then(($links) => {
+      const itemCount = $links.length;
+      const randomIndex = Math.floor(Math.random() * itemCount);
+      const selectedLink = $links[randomIndex];
+      cy.wrap(selectedLink).trigger('mouseover');
+      cy.wrap(selectedLink).find('.add-to-cart').first().click();
+      cy.wrap(selectedLink)
+        .find('h2')
+        .then((priceElement) => {
+          const productPrice = priceElement.text().trim();
+          cy.wrap(selectedLink)
+            .find('p')
+            .then((nameElement) => {
+              const productName = nameElement.text().trim();
+              cy.writeFile('cypress/fixtures/product.json', {
+                name: productName,
+                price: productPrice,
+              });
+          this.continueBtn.click();
+            });
+        });
+    });
+  }
+}
 export default new ProductsPage();
