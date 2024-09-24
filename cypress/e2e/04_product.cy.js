@@ -76,13 +76,70 @@ describe('Verifying Products page', () => {
       cy.get('.cart_price').should('contain.text', product.price);
     });
   });
-  
+
   it('Verify Product quantity in Cart', () => {
     ProductsPage.clickRandomViewProduct();
     ProductsPage.productsInfo.should('be.visible');
     ProductsPage.quantity.clear().type(4);
     ProductsPage.addToCartBtn.click();
     ProductsPage.viewCart.click();
-    cy.get('button.disabled').should('contain.text', '4')
+    cy.get('button.disabled').should('contain.text', '4');
+  });
+
+  it('Verify View Category Products', () => {
+    ProductsPage.productsLink.click();
+    cy.contains('h2', 'Category').should('be.visible');
+    cy.contains('Women').click();
+    cy.contains('Dress').click();
+    cy.contains('h2', 'Women - Dress Products').should('be.visible');
+    cy.contains('Men').click();
+    cy.contains('Tshirts').click();
+    cy.contains('h2', 'Men - Tshirts Products').should('be.visible');
+  });
+
+  it('Verify View & Cart Brand Products', () => {
+    ProductsPage.productsLink.click();
+    cy.contains('h2', 'Brands').should('be.visible');
+    cy.contains('Polo').click();
+    cy.url().should('eq', 'https://automationexercise.com/brand_products/Polo');
+    cy.contains('h2', 'Brand - Polo Products').should('be.visible');
+    cy.contains('Babyhug').click();
+    cy.url().should(
+      'eq',
+      'https://automationexercise.com/brand_products/Babyhug'
+    );
+    cy.contains('h2', 'Brand - Babyhug Products').should('be.visible');
+  });
+
+  it('Add review on product', () => {
+    ProductsPage.productsLink.click();
+    cy.url().should('eq', basePage.productsUrl);
+    cy.contains('h2', 'All Products').should('be.visible');
+    cy.log('Verify user is navigated to ALL PRODUCTS page successfully');
+
+    ProductsPage.productsList.should('have.length.greaterThan', 0);
+    cy.log('The products list is visible');
+
+    ProductsPage.clickRandomViewProduct();
+    cy.log('Click on "View Product" of random product');
+    ProductsPage.nameReview.type('Alla');
+    ProductsPage.emailReview.type('test@gmail.com');
+    ProductsPage.commentReview.type('dghsgdhsjagdjhgsadsad');
+    ProductsPage.reviewBtn.click();
+    cy.get('.alert-success.alert')
+      .should('be.visible')
+      .and('contain', 'Thank you for your review.');
+  });
+
+  it('Add to cart from Recommended items', () => {
+    ProductsPage.recommendProduct.scrollIntoView();
+    ProductsPage.clickRecommendRandomItem();
+    ProductsPage.viewCart.click();
+    cy.fixture('recommend_product.json').then((product) => {
+      cy.get('a[href^="/product_details/"]').should(
+        'contain.text',
+        product.name
+      );
+    });
   });
 });
