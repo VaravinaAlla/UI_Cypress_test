@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 
+import { generateRandomComment } from '../support/dataGenerator';
 import BasePage from './BasePage';
 class CartPage extends BasePage {
   get cartLink() {
@@ -37,8 +38,35 @@ class CartPage extends BasePage {
   get addressInvoice() {
     return cy.get('#address_invoice');
   }
+
+  recommendItemIsDisplayedinCart() {
+    cy.fixture('recommend_product.json').then((product) => {
+      cy.get('a[href^="/product_details/"]').should(
+        'contain.text',
+        product.name
+      );
+    });
+  }
+
+  cartIsEmptyIsDisplayed() {
+    cy.get('#empty_cart').should('contain.text', 'Cart is empty!');
+  }
+
+  fillCommentInCheckoutAndClick() {
+    const comment = generateRandomComment();
+    this.commentCart.type(comment.chekoutComment);
+    this.placeOrderBtn.click();
+  }
+
+  productPriceInCartIsEql() {
+    cy.fixture('product.json').then((product) => {
+      cy.get('a[href^="/product_details/"]').should(
+        'contain.text',
+        product.name
+      );
+      cy.get('.cart_price').should('contain.text', product.price);
+    });
+  }
 }
-
-
 
 export default new CartPage();

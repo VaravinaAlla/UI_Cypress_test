@@ -47,6 +47,30 @@ class LoginPage extends BasePage {
     super.open('');
   }
 
+  loginWithIncorrectEmailAndPass() {
+    this.loginForm.should('be.visible');
+    this.loginEmail.type('111@gmail.com');
+    this.loginPassword.type('123');
+    this.loginBtn.click();
+  }
+
+  loginWithEmptyEmail() {
+    this.loginEmail.type(' ');
+    this.loginPassword.type('123');
+    this.loginBtn.click();
+  }
+
+  loginWithEmptyPass() {
+    this.loginEmail.type('tetians125%@gmail.com');
+    this.loginBtn.click();
+  }
+
+  loginWithIncorrectEmail() {
+    this.loginEmail.type('Tanya');
+    this.loginPassword.type('123');
+    this.loginBtn.click();
+  }
+
   openSignUpAndLoginForm() {
     this.loginLink.click();
   }
@@ -73,6 +97,24 @@ class LoginPage extends BasePage {
       this.loginBtn.click();
     });
   }
+
+  bodyIsVisible() {
+    cy.get('body').should('be.visible');
+  }
+
+  titleHomePageIsVisible() {
+    cy.title().should('include', 'Automation Exercise');
+  }
+
+  loginFormIsVisible(){
+    this.loginForm.should('be.visible');
+    cy.contains('h2', 'Login to your account').should('be.visible');
+  }
+
+  loggedInIsVisible(){
+    cy.contains('a', 'Logged in as ').should('be.visible');
+  }
+
 }
 
 export default new LoginPage();

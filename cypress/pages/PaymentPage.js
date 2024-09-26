@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+import { generateRandomDataCard } from '../support/dataGenerator';
 
 import BasePage from './BasePage';
 class PaymentPage extends BasePage {
@@ -31,6 +32,16 @@ class PaymentPage extends BasePage {
 
   get paymentContinueBtn() {
     return cy.get('[data-qa="continue-button"]');
+  }
+
+  fillDataCreditCardAndClick() {
+    const creditCardData = generateRandomDataCard();
+    this.numberCard.type(creditCardData.cardNumber);
+    this.nameCard.type(creditCardData.cardName);
+    this.CVCCard.type(creditCardData.cardCVV);
+    this.monthCard.type(creditCardData.cardMonth);
+    this.yearCard.type(creditCardData.cardYear);
+    this.playAndConfirmBtn.click();
   }
 }
 

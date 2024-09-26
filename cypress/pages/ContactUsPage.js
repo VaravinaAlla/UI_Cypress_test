@@ -39,6 +39,16 @@ class ContactUsPage extends BasePage {
     this.contactFile.attachFile('../fixtures/images/Screenshot_181.png');
     this.contactSubmitBtn.click();
   }
+
+  successAlertIsAppeared() {
+    cy.on('window:alert', (alertText) => {
+      expect(alertText).to.equal('Press OK to proceed!');
+    });
+    cy.get('.alert-success').should(
+      'contain.text',
+      'Success! Your details have been submitted successfully.'
+    );
+  }
 }
 
 export default new ContactUsPage();
