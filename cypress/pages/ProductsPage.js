@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 import BasePage from './BasePage';
-import CartPage from '../pages/CartPage';
+import { getRandomSearchTerm } from '../support/dataGenerator';
 class ProductsPage extends BasePage {
   get productsLink() {
     return cy.get('a[href="/products"]');
@@ -68,6 +68,77 @@ class ProductsPage extends BasePage {
 
   get recommendProduct() {
     return cy.get('#recommended-item-carousel');
+  }
+
+  productCategoryIsOpened(){
+    cy.contains('h2', 'Category').should('be.visible');
+    cy.contains('Women').click();
+    cy.contains('Dress').click();
+    cy.contains('h2', 'Women - Dress Products').should('be.visible');
+    cy.contains('Men').click();
+    cy.contains('Tshirts').click();
+    cy.contains('h2', 'Men - Tshirts Products').should('be.visible');
+  }
+
+  productBrandIsOpened(){
+    cy.contains('h2', 'Brands').should('be.visible');
+    cy.contains('Polo').click();
+    cy.url().should('eq', 'https://automationexercise.com/brand_products/Polo');
+    cy.contains('h2', 'Brand - Polo Products').should('be.visible');
+    cy.contains('Babyhug').click();
+    cy.url().should(
+      'eq',
+      'https://automationexercise.com/brand_products/Babyhug'
+    );
+    cy.contains('h2', 'Brand - Babyhug Products').should('be.visible');
+  }
+
+  productCardIsDisplayed() {
+    this.productsList.should('have.length.greaterThan', 0);
+  }
+
+  fillReviewFieldAndSubmit(){
+    this.nameReview.type('Alla');
+    this.emailReview.type('test@gmail.com');
+    this.commentReview.type('dghsgdhsjagdjhgsadsad');
+    this.reviewBtn.click();
+  }
+
+  
+
+  successAlertIsAppear(){
+    cy.get('.alert-success.alert')
+      .should('be.visible')
+      .and('contain', 'Thank you for your review.');
+  }
+
+  productInfoIsVisibleAndEql() {
+    this.productsInfo
+      .should('contain.text', 'Category')
+      .and('contain.text', 'Availability')
+      .and('contain.text', 'Condition')
+      .and('contain.text', 'Brand')
+      .and('be.visible');
+  }
+
+  priceIsEql() {
+    this.productPrice.invoke('text').then((priceText) => {
+      const trimmedPrice = priceText.trim();
+      expect(trimmedPrice).to.match(/Rs\. \d+/);
+    });
+  }
+
+  productSearchIsRelevanted(){
+    cy.fixture('searchTerms').then((data) => {
+      const terms = data.terms;
+      const searchTerm = getRandomSearchTerm(terms);
+      this.typeSearchProductAndClickSearchBtn(searchTerm);
+      cy.url().should('include', `?search=${searchTerm}`);
+      cy.contains('h2', 'Searched Products').should('be.visible');
+      this.productSearchedList.each(($el) => {
+        cy.wrap($el).find('p').should('contain.text', searchTerm);
+      });
+    });
   }
 
   typeSearchProductAndClickSearchBtn(searchTerms) {

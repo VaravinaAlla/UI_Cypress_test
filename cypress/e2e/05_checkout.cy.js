@@ -20,17 +20,8 @@ describe('Verifying Checkout process', () => {
     CreateAccountPage.continueBtn.click();
     CartPage.cartLink.first().click();
     CartPage.cartCheckoutBtn.click();
-    cy.get('.step-one').should('contain.text', 'Address Details');
-    cy.contains('h2', 'Address Details').should('be.visible');
-
-    CartPage.commentCart.type('hdasjkdhsakjd gdhagsjd gdhasgdashgdj');
-    CartPage.placeOrderBtn.click();
-    PaymentPage.nameCard.type('4444 6666 7777 7777');
-    PaymentPage.numberCard.type('Name Surname');
-    PaymentPage.CVCCard.type('123');
-    PaymentPage.monthCard.type('02');
-    PaymentPage.yearCard.type('2026');
-    PaymentPage.playAndConfirmBtn.click();
+    CartPage.fillCommentInCheckoutAndClick();
+    PaymentPage.fillDataCreditCardAndClick();
     PaymentPage.paymentContinueBtn.click();
   });
 
@@ -42,12 +33,7 @@ describe('Verifying Checkout process', () => {
     CartPage.cartLink.first().click();
     CartPage.cartCheckoutBtn.click();
     CartPage.placeOrderBtn.click();
-    PaymentPage.nameCard.type('4444 6666 7777 7777');
-    PaymentPage.numberCard.type('Name Surname');
-    PaymentPage.CVCCard.type('123');
-    PaymentPage.monthCard.type('02');
-    PaymentPage.yearCard.type('2026');
-    PaymentPage.playAndConfirmBtn.click();
+    PaymentPage.fillDataCreditCardAndClick();
     PaymentPage.paymentContinueBtn.click();
     CreateAccountPage.deleteBtn.click();
     CreateAccountPage.continueBtn.click();
@@ -58,6 +44,6 @@ describe('Verifying Checkout process', () => {
     ProductsPage.hoverOnItemAndClick();
     CartPage.cartLink.first().click();
     CartPage.deleteItemrBtn.click();
-    cy.get('#empty_cart').should('contain.text', 'Cart is empty!');
+    CartPage.cartIsEmptyIsDisplayed();
   });
 });
