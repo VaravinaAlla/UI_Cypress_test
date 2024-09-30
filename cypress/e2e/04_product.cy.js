@@ -37,7 +37,7 @@ describe('Verifying Products page', () => {
 
   it('Verify Product quantity in Cart', () => {
     ProductsPage.clickRandomViewProduct();
-    ProductsPage.quantity.clear().type(4);
+    ProductsPage.typequantity(4);
     ProductsPage.addToCartBtn.click();
     ProductsPage.viewCart.click();
     cy.get('button.disabled').should('contain.text', '4');

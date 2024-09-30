@@ -70,6 +70,10 @@ class ProductsPage extends BasePage {
     return cy.get('#recommended-item-carousel');
   }
 
+  typequantity(number){
+  this.quantity.clear().type(number);
+  }
+
   productCategoryIsOpened(){
     cy.contains('h2', 'Category').should('be.visible');
     cy.contains('Women').click();
